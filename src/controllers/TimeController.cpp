@@ -1,4 +1,4 @@
-#include "plugin.hpp"
+#include "hot_reload/interfaces.hpp"
 #include <memory>
 #include <dlfcn.h>
 
@@ -6,7 +6,7 @@ class TimeController : public IController {
 public:
     std::shared_ptr<IRouter> getRouter() override {
         if (!router_) {
-            void* handle = dlopen("libApiRouter.dylib", RTLD_NOW);
+            void* handle = dlopen("routers/libApiRouter.dylib", RTLD_NOW);
             if (handle) {
                 auto createFunc = (IRouter*(*)())dlsym(handle, "createRouter");
                 if (createFunc) {

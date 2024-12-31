@@ -1,4 +1,4 @@
-#include "plugin.hpp"
+#include "hot_reload/interfaces.hpp"
 
 class HelloEndpoint : public IEndpoint {
 public:

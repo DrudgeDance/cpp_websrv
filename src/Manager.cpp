@@ -1,4 +1,4 @@
-#include "plugin.hpp"
+#include "hot_reload/interfaces.hpp"
 #include <filesystem>
 #include <dlfcn.h>
 #include <fmt/core.h>
@@ -42,8 +42,7 @@ private:
         fmt::print("Loading controllers...\n");
         
         // Get the binary directory path
-        std::filesystem::path binDir = std::filesystem::current_path() / "bin";
-        std::filesystem::path controllerDir = binDir / "controllers";
+        std::filesystem::path controllerDir = std::filesystem::current_path() / "controllers";
         
         fmt::print("Looking for controllers in: {}\n", controllerDir.string());
 

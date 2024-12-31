@@ -10,9 +10,13 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-# Add RPATH settings for Linux
-if(UNIX AND NOT APPLE)
-    set(CMAKE_INSTALL_RPATH "$ORIGIN")
+# RPATH settings for Unix systems
+if(UNIX)
+    if(APPLE)
+        set(CMAKE_INSTALL_RPATH "@executable_path")
+    else()
+        set(CMAKE_INSTALL_RPATH "$ORIGIN")
+    endif()
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
 endif()
 
@@ -27,7 +31,7 @@ foreach(ENDPOINT_SOURCE ${ENDPOINT_SOURCES})
     set_target_properties(${ENDPOINT_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/endpoints
     )
-    target_include_directories(${ENDPOINT_NAME} PUBLIC include)
+    target_include_directories(${ENDPOINT_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
     target_link_libraries(${ENDPOINT_NAME} PRIVATE fmt::fmt)
 endforeach()
 
@@ -39,7 +43,7 @@ foreach(ROUTER_SOURCE ${ROUTER_SOURCES})
     set_target_properties(${ROUTER_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/routers
     )
-    target_include_directories(${ROUTER_NAME} PUBLIC include)
+    target_include_directories(${ROUTER_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
     target_link_libraries(${ROUTER_NAME} PRIVATE fmt::fmt)
 endforeach()
 
@@ -51,16 +55,16 @@ foreach(CONTROLLER_SOURCE ${CONTROLLER_SOURCES})
     set_target_properties(${CONTROLLER_NAME} PROPERTIES
         LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/controllers
     )
-    target_include_directories(${CONTROLLER_NAME} PUBLIC include)
+    target_include_directories(${CONTROLLER_NAME} PUBLIC ${CMAKE_SOURCE_DIR}/include)
     target_link_libraries(${CONTROLLER_NAME} PRIVATE fmt::fmt)
 endforeach()
 
 # Main application manager
 add_library(manager SHARED src/Manager.cpp)
-target_include_directories(manager PUBLIC include)
+target_include_directories(manager PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(manager PRIVATE fmt::fmt)
 
 # Main executable
 add_executable(server src/main.cpp)
-target_include_directories(server PUBLIC include)
+target_include_directories(server PUBLIC ${CMAKE_SOURCE_DIR}/include)
 target_link_libraries(server PRIVATE Boost::boost fmt::fmt) 

@@ -1,4 +1,4 @@
-#include "plugin.hpp"
+#include "hot_reload/interfaces.hpp"
 #include <fmt/core.h>
 #include <chrono>
 

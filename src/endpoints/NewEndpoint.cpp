@@ -1,4 +1,4 @@
-#include "plugin.hpp"
+#include "hot_reload/interfaces.hpp"
 
 class NewEndpoint : public IEndpoint {
 public:
@@ -7,7 +7,7 @@ public:
     }
 
     std::string handle(std::string_view body) override {
-        return "🆕 This endpoint was added via hot reload!";
+        return "🆕 🆕 🔥 🔥 🔥 This endpoint was added via hot reload!";
     }
 };
 

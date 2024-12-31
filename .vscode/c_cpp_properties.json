@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include",
+                "${workspaceFolder}/include/hot_reload",
                 "${HOME}/.conan2/p/**",
                 "/usr/local/include/**"
             ],

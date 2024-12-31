@@ -4,11 +4,12 @@
 #include <boost/beast/version.hpp>
 #include <boost/asio.hpp>
 #include <fmt/core.h>
-#include "plugin.hpp"
+#include "hot_reload/interfaces.hpp"
 #include <filesystem>
 #include <chrono>
 #include <thread>
 #include <memory>
+
 
 // Platform-specific dynamic library loading macros and types
 #ifdef _WIN32
@@ -98,16 +99,16 @@ public:
         // Determine plugin path based on platform
         std::filesystem::path pluginPath;
         #ifdef _WIN32
-            pluginPath = std::filesystem::current_path() / "bin" / "plugin.dll";
+            pluginPath = "plugin.dll";
         #elif __APPLE__
-            pluginPath = std::filesystem::current_path() / "bin" / "libplugin.dylib";
+            pluginPath = "libmanager.dylib";
         #else
-            pluginPath = std::filesystem::current_path() / "bin" / "libplugin.so";
+            pluginPath = "libplugin.so";
         #endif
 
         // Load initial plugin
         if (!loader_.loadPlugin(pluginPath.string())) {
-            throw std::runtime_error("Failed to load initial plugin");
+            throw std::runtime_error(fmt::format("Failed to load initial plugin from {}", pluginPath.string()));
         }
 
         // Start watching for plugin changes
